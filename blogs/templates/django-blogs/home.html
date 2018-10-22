@@ -1,0 +1,37 @@
+{% extends 'django-blogs/base.html' %}
+
+{% block content %}
+
+{% for post in posts %}
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ post.heading }}</h5>
+        <a href="{% url 'blogs_read' post.slug %}">Read...</a>
+    </div>
+</div>
+{% endfor %}
+
+<div>
+    <ul class="pagination justify-content-center pagination-sm">
+        {% if posts.has_previous %}
+            <li>
+                <a href="?page=1">&laquo; first</a>
+            </li>
+            <li>
+                <a href="?page={{ posts.previous_page_number }}">previous</a>
+            </li>
+        {% endif %}
+
+
+        {% if contacts.has_next %}
+        <li>
+            <a href="?page={{ contacts.next_page_number }}">next</a>
+        </li>
+        <li>
+            <a href="?page={{ contacts.paginator.num_pages }}">last &raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>
+
+{% endblock %}

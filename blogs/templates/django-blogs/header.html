@@ -1,0 +1,21 @@
+{% if not user.is_authenticated %}
+<nav class="navbar fixed-top border-bottom">
+    <div class="container">
+        <a class="navbar-brand text-dark" href="{% url 'blogs:home'%}">Blogs</a>
+    </div>
+</nav>
+
+{% else %}
+<nav class='navbar fixed-top border-bottom'>
+  <div class='container'>
+    <a class="navbar-brand text-dark" href="{% url 'blogs:home'%}">Blogs</a>
+    <ul class="nav justified-content-end">
+      {% if user.author.is_author %}
+      <li class="nav-item">
+        <small><a class="nav-link btn btn-outline-success btn-sm mr-1" href="{% url 'blogs:new'%}">New Blog</a></small>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+{% endif %}

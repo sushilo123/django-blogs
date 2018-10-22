@@ -1,0 +1,34 @@
+{% extends 'django-blogs/base.html' %}
+
+{% load humanize %}
+
+{% block content %}
+<style>
+    .content p{
+        font-size: 1.25rem;
+    }
+</style>
+
+{% if blog.author == user.email %}
+<div class="container">
+    <div class="row justify-content-end">
+        <a class="col-3 col-md-2 col-lg-1 btn btn-outline-success btn-sm mr-1" href="{% url 'blog_edit' blog.uuid %}">Edit</a>
+        <a class="col-3 col-md-2 col-lg-1 btn btn-outline-danger btn-sm" href="{% url 'delete' blog.uuid %}">Delete</a>
+    </div>
+</div>
+{% endif %}
+
+<div id="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-center">{{ blog.heading }}</h1>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col">
+            <p class="text-center">by {{ blog.author }} {{ blog.published_date | naturaltime }}</p>
+        </div>
+    </div>
+    <div class="content">{{ blog.content | safe }}</div>
+</div>
+{% endblock %}

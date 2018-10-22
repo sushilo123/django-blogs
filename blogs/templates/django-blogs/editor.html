@@ -1,0 +1,79 @@
+{% extends 'django-blogs/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+<style>
+    .editable {
+        outline: none;
+    }
+    .editable p{
+        font-size: 1.25rem;
+    }
+</style>
+
+{% csrf_token %}
+
+<div class="container">
+    <div class="row justify-content-end">
+        <button onclick="saveData()" class="mr-1 col-3 col-md-2 col-lg-1 btn btn-outline-secondary">
+            <i class="far fa-save"></i> Save
+        </button>
+        {% if blog.is_published %}
+        <!-- <a class="col-3 col-md-2 col-lg-1 btn btn-outline-success disabled mr-1" href="{% url 'publish' blog.uuid %}">Published</a> -->
+        {% else %}
+        <!-- <a class="col-3 col-md-2 col-lg-1 btn btn-outline-success mr-1" href="{% url 'publish' blog.uuid %}">Publish</a> -->
+        {% endif %}
+        <!-- <a class="col-3 col-md-2 col-lg-1 btn btn-outline-danger" href="{% url 'delete' blog.uuid %}">Delete</a> -->
+    </div>
+</div>
+
+
+<div id="container">
+    <div class="row mb-5">
+        <div class="col">
+            <h1 class="editable text-center" id="heading">{{ blog.heading }}</h1>
+        </div>
+    </div>
+    <div id="content" class="editable medium-editor-element" data-placeholder="Type content">{{ blog.content | safe }}</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+<script>
+    var typing;
+    var editor = new MediumEditor('.editable', {
+        buttonLabels: 'fontawesome',
+        toolbar: {
+            buttons: ['bold', 'italic', 'underline', 'anchor', 'h2', 'h3', 'html']
+        },
+        autolink: true,
+    });
+
+    editor.subscribe('editableInput', function (event, editable) {
+        clearTimeout(typing); //
+        typing = setTimeout(saveData, 2000) // try to save data when user stops for 2 second
+    });
+
+
+    var saveData = function(){
+        var csrftoken = $('[name=csrfmiddlewaretoken').val();
+        var content = {
+            'heading': $('#heading').html(),
+            'content': $('#content').html(),
+        }        
+        
+        $.ajax({
+            url: "{% url 'blogs:edit' blog.uuid%}",
+            method: "post",
+            data: content,
+            headers: {
+                'X-CSRFToken': csrftoken
+            }
+        })
+    }
+</script>
+{% endblock %}
