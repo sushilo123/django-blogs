@@ -22,6 +22,11 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Framework :: Django :: 2.0',
+        'Framework :: Django :: 2.1',
         ],
-    packages=['blogs']
+    packages=['blogs'],
+    install_requires=[
+        'django>=2.0'
+    ]
     )
