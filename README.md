@@ -2,6 +2,14 @@
 
 Django blogs provides a WYSIWYG blogging application with medium style editor using [Medium-Editor](https://github.com/yabwe/medium-editor).
 
+## Installing
+
+Install with pip using
+
+```
+pip install -U djangoblogs
+```
+
 ## Quickstart
 
 1. Add `'blogs'` to your INSTALLED_APPS setting like this:
