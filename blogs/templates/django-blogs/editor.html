@@ -2,6 +2,17 @@
 
 {% load static %}
 
+{% block dropdown_options %}
+<div class="dropdown-divider"></div>
+<button onclick="saveData()" class="dropdown-item">Save</button>
+{% if blog.is_published %}
+    <a class="dropdown-item disabled" href="{% url 'blogs:publish' blog.uuid %}">Published</a>
+    {% else %}
+    <a class="dropdown-item" href="{% url 'blogs:publish' blog.uuid %}">Publish</a>
+{% endif %}
+<a class="dropdown-item text-danger-50" href="{% url 'blogs:delete' blog.uuid %}">Delete</a>
+{% endblock %}
+
 {% block content %}
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
 <link rel="stylesheet" href="{% static 'css/beagle-theme.min.css' %}" type="text/css" media="screen">
@@ -16,22 +27,7 @@
 
 {% csrf_token %}
 
-<div class="container">
-    <div class="row justify-content-end">
-        <button onclick="saveData()" class="mr-1 col-3 col-md-2 col-lg-1 btn btn-sm btn-outline-secondary">
-            <i class="far fa-save"></i> Save
-        </button>
-        {% if blog.is_published %}
-        <a class="col-3 col-md-2 col-lg-1 btn btn-sm btn-outline-success disabled mr-1" href="{% url 'blogs:publish' blog.uuid %}">Published</a>
-        {% else %}
-        <a class="col-3 col-md-2 col-lg-1 btn btn-sm btn-outline-success mr-1" href="{% url 'blogs:publish' blog.uuid %}">Publish</a>
-        {% endif %}
-        <a class="col-3 col-md-2 col-lg-1 btn-sm btn btn-outline-danger" href="{% url 'blogs:delete' blog.uuid %}">Delete</a>
-    </div>
-</div>
-
-
-<div id="container">
+<div class="mt-5">
     <div class="row mb-5">
         <div class="col">
             <h1 class="editable" id="heading">{{ blog.heading | safe}}</h1>

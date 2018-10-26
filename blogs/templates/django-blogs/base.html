@@ -14,8 +14,29 @@
 
 <body>
 
-    <header class="mb-3">
-        {% include 'django-blogs/header.html' %}
+    <header class="mb-3 border-bottom">
+        <div class="container">
+            <div class="row pt-2">
+                <div class="col">
+                    <h5><a class="text-dark" href="{% url 'blogs:home' %}" style="text-decoration: none">Blogs</a></h5>
+                </div>
+                <div class="col">
+                    {% if user.is_authenticated %}
+                    <div class="dropdown float-right">
+                        <a class="h5 text-secondary" href="#" role="button" id="optionsDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-bars"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="optionsDropdown">
+                            <a class="dropdown-item" href="{% url 'blogs:new' %}">New Post</a>
+                            <a class="dropdown-item" href="{% url 'blogs:drafts' %}">Drafts</a>
+                            {% block dropdown_options %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </header>
 
     <main class="container">
