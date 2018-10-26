@@ -4,6 +4,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+<link rel="stylesheet" href="{% static 'css/beagle-theme.min.css' %}" type="text/css" media="screen">
 <style>
     .editable {
         outline: none;
@@ -17,15 +18,15 @@
 
 <div class="container">
     <div class="row justify-content-end">
-        <button onclick="saveData()" class="mr-1 col-3 col-md-2 col-lg-1 btn btn-outline-secondary">
+        <button onclick="saveData()" class="mr-1 col-3 col-md-2 col-lg-1 btn btn-sm btn-outline-secondary">
             <i class="far fa-save"></i> Save
         </button>
         {% if blog.is_published %}
-        <!-- <a class="col-3 col-md-2 col-lg-1 btn btn-outline-success disabled mr-1" href="{% url 'publish' blog.uuid %}">Published</a> -->
+        <a class="col-3 col-md-2 col-lg-1 btn btn-sm btn-outline-success disabled mr-1" href="{% url 'blogs:publish' blog.uuid %}">Published</a>
         {% else %}
-        <!-- <a class="col-3 col-md-2 col-lg-1 btn btn-outline-success mr-1" href="{% url 'publish' blog.uuid %}">Publish</a> -->
+        <a class="col-3 col-md-2 col-lg-1 btn btn-sm btn-outline-success mr-1" href="{% url 'blogs:publish' blog.uuid %}">Publish</a>
         {% endif %}
-        <!-- <a class="col-3 col-md-2 col-lg-1 btn btn-outline-danger" href="{% url 'delete' blog.uuid %}">Delete</a> -->
+        <a class="col-3 col-md-2 col-lg-1 btn-sm btn btn-outline-danger" href="{% url 'blogs:delete' blog.uuid %}">Delete</a>
     </div>
 </div>
 
@@ -33,7 +34,7 @@
 <div id="container">
     <div class="row mb-5">
         <div class="col">
-            <h1 class="editable text-center" id="heading">{{ blog.heading }}</h1>
+            <h1 class="editable" id="heading">{{ blog.heading | safe}}</h1>
         </div>
     </div>
     <div id="content" class="editable medium-editor-element" data-placeholder="Type content">{{ blog.content | safe }}</div>
@@ -61,6 +62,7 @@
 
     var saveData = function(){
         var csrftoken = $('[name=csrfmiddlewaretoken').val();
+        var subtitle = $('#content').find('p').first().text();
         var content = {
             'heading': $('#heading').html(),
             'content': $('#content').html(),

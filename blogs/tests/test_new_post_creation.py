@@ -58,5 +58,7 @@ class NewBlogTestCase(TestCase):
         Checks that after a new post is creatd user is redirected
         to the edit view of the post.
         """
-        pass
+        self.client.force_login(self.author_user)
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, 302)
         

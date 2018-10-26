@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for post in posts %}
-<a class="text-dark" href="{% url 'blogs:read' post.slug %}" style="text-decoration: none">
+<a class="text-dark" href="{% url 'blogs:edit' post.uuid %}" style="text-decoration: none">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title"><strong>{{ post.heading }}</strong></h4>

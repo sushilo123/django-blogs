@@ -1,7 +1,5 @@
 {% extends 'django-blogs/base.html' %}
 
-{% load humanize %}
-
 {% block content %}
 <style>
     .content p{
@@ -9,11 +7,11 @@
     }
 </style>
 
-{% if blog.author == user.email %}
+{% if post.author == user.username %}
 <div class="container">
     <div class="row justify-content-end">
-        <a class="col-3 col-md-2 col-lg-1 btn btn-outline-success btn-sm mr-1" href="{% url 'blog_edit' blog.uuid %}">Edit</a>
-        <a class="col-3 col-md-2 col-lg-1 btn btn-outline-danger btn-sm" href="{% url 'delete' blog.uuid %}">Delete</a>
+        <a class="col-3 col-md-2 col-lg-1 btn btn-outline-success btn-sm mr-1" href="{% url 'blogs:edit' post.uuid %}">Edit</a>
+        <a class="col-3 col-md-2 col-lg-1 btn btn-outline-danger btn-sm" href="{% url 'blogs:delete' post.uuid %}">Delete</a>
     </div>
 </div>
 {% endif %}
@@ -21,14 +19,21 @@
 <div id="container">
     <div class="row">
         <div class="col">
-            <h1 class="text-center">{{ blog.heading }}</h1>
+            <h1>{{ post.heading | safe }}</h1>
         </div>
     </div>
     <div class="row mb-5">
         <div class="col">
-            <p class="text-center">by {{ blog.author }} {{ blog.published_date | naturaltime }}</p>
+            <div class="row">
+                <div class="col-6 col-md-2">
+                    <i class="far fa-calendar-alt"></i> {{ post.published_on | date:"DATE_FORMAT" }}
+                </div>
+                <div class="col-6 col-md-2">
+                    <i class="fa fa-user"></i></i> {{post.author}}
+                </div>
+            </div>
         </div>
     </div>
-    <div class="content">{{ blog.content | safe }}</div>
+    <div class="content">{{ post.content | safe }}</div>
 </div>
 {% endblock %}
