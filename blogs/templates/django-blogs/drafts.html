@@ -6,8 +6,7 @@
 <a class="text-dark" href="{% url 'blogs:edit' post.uuid %}" style="text-decoration: none">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>{{ post.heading }}</strong></h4>
-            <p class="card-content">{{post.content | safe}}</p>
+            <h4 class="card-title"><strong>{{ post.heading | safe}}</strong></h4>
         </div>
     </div>
 </a>

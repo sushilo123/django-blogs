@@ -6,8 +6,15 @@
 <a class="text-dark" href="{% url 'blogs:read' post.slug %}" style="text-decoration: none">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>{{ post.heading }}</strong></h4>
-            <p class="card-content">{{post.content | safe}}</p>
+            <h4 class="card-title"><strong>{{ post.heading | safe}}</strong></h4>
+            <div class="row">
+                <div class="col-12 col-md-2">
+                    <i class="far fa-calendar-alt"></i> {{ post.published_on | date:"DATE_FORMAT" }}
+                </div>
+                <div class="col-12 col-md-3">
+                    <i class="fa fa-user"></i></i> {{post.author}}
+                </div>
+            </div>
         </div>
     </div>
 </a>
