@@ -11,6 +11,11 @@ from django.utils import timezone
 
 from .models import Post
 from .mixins import AuthorRequiredMixin
+from .settings import settings as app_settings
+
+common_context = {
+    'settings': app_settings
+}
 
 
 class BlogHomeView(View):
@@ -22,7 +27,8 @@ class BlogHomeView(View):
         page = request.GET.get('page')
         posts = paginator.get_page(page)
         return render(request, 'django-blogs/home.html', {
-            'posts': posts
+            'posts': posts,
+            **common_context,
         })
 
 class NewBlogView(LoginRequiredMixin, AuthorRequiredMixin, View):
@@ -43,7 +49,8 @@ class BlogEditView(LoginRequiredMixin, AuthorRequiredMixin, View):
         if not post.author == request.user.username:
             raise PermissionDenied
         return render(request, 'django-blogs/editor.html', {
-            'blog': post
+            'blog': post,
+            **common_context,
         })
     
     def post(self, request, uuid):
@@ -77,7 +84,8 @@ class BlogDraftView(LoginRequiredMixin, AuthorRequiredMixin, View):
         page = request.GET.get('page')
         posts = paginator.get_page(page)
         return render(request, 'django-blogs/drafts.html', {
-            'posts': posts
+            'posts': posts,
+            **common_context,
         })
 
 class BlogReadView(View):
@@ -89,7 +97,8 @@ class BlogReadView(View):
             is_deleted=False,
             is_published=True)
         return render(request, 'django-blogs/blog.html', {
-            'post': post
+            'post': post,
+            **common_context
         })
 
 class BlogPublishView(LoginRequiredMixin, AuthorRequiredMixin, View):
